@@ -3,6 +3,7 @@ from flask_bootstrap import Bootstrap
 import smtplib
 from email.message import EmailMessage
 from flask_gravatar import Gravatar
+import datetime
 
 MY_EMAIL = "learningpython38@yahoo.com"
 PASSWORD = 'bnzjqpcvbajximnf'
@@ -43,13 +44,15 @@ def send_email(name, email, message):
 
 @app.route('/', methods=["GET", "POST"])
 def home():
+    current_year = datetime.date.today().year
+
     if request.method == "POST":
         data = request.form
         send_email(name=data["name"], email=data["email"], message=data["message"])
 
         return render_template("index.html", submit=True)
 
-    return render_template("index.html", submit=False)
+    return render_template("index.html", year=current_year, submit=False)
 
 
 
